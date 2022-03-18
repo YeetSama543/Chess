@@ -1,3 +1,3 @@
 # Chess
-## Chess game using pygame
-###Test
+Chess game using pygame
+Test
