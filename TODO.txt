@@ -1,0 +1,5 @@
+04/15/22
+EP does not always work as intended
+is_draw needs tested
+is_win needs tested
+UI needs work
