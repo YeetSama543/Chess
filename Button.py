@@ -2,10 +2,6 @@ import pygame
 from App import screen, font
 from Game_Constants import *
 
-###TO DO###
-#test if text can be added to the button and
-#displayed properly
-###TO DO###
 class Button():
     def __init__(self, width, height, text_color, bg_color, hover_color, is_hovered: bool, state: bool, text: str):
         self.width = width
