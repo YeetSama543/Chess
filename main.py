@@ -1,4 +1,4 @@
-import pygame
+import pygame as pg
 import App
 import Game
 import TitleScreen
@@ -9,14 +9,14 @@ def main():
     choice = 0
     TitleScreen.draw()
     while running:
-        for event in pygame.event.get(): #check for events
-            if event.type == pygame.QUIT: #player exited
+        for event in pg.event.get(): #check for events
+            if event.type == pg.QUIT: #player exited
                 running = False
-            if event.type == pygame.MOUSEMOTION:
+            if event.type == pg.MOUSEMOTION:
                 for button in TitleScreen.buttons:
                     if button.change_hover():
                         TitleScreen.update()
-            if event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pg.MOUSEBUTTONUP:
                 button_count = 0 #used to set choice
                 for button in TitleScreen.buttons:
                     button_count += 1
@@ -25,10 +25,11 @@ def main():
                         choice = button_count
                         running = False
         #update screen
-        pygame.display.update()
+        pg.display.update()
         #set max frame rate
         App.clock.tick(60)
 
-    pygame.quit()
+
+    pg.quit()
 if __name__ == "__main__":
     main()
