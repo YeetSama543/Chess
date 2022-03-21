@@ -24,13 +24,18 @@ class Button():
             self.surface.fill(self.hover_color)
         else:
             self.surface.fill(self.bg_color)
+
         #draw text onto button
         text_box = font.render(self.text, True, self.text_color)
         text_x = (self.width - text_box.get_width()) // 2
         text_y = (self.height - text_box.get_height()) // 2
         self.surface.blit(text_box, (text_x, text_y))
+
         #draw button on screen
         screen.blit(self.surface, pos)
+
+        #update position var of button
+        self.pos = pos
 
     def click(self):
         self.state = True
@@ -39,7 +44,7 @@ class Button():
         changed = True
         was_hovered = self.is_hovered
 
-        self.is_hovered = self.surface.get_rect().collidepoint(mouse_pos)
+        self.is_hovered = self.surface.get_rect(topleft = self.pos).collidepoint(mouse_pos)
 
         if self.is_hovered == was_hovered:
             changed = False
