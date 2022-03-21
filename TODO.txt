@@ -1,0 +1,11 @@
+03/21/22
+Create images for each Chess piece
+
+Finish Piece.draw
+
+Make skeleton for board class:
+Board.draw
+Board.update
+Board.move_piece(start_square, end_square)
+Board.generate_attacked_squares(clicked_piece)
+
