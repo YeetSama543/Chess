@@ -1,4 +1,5 @@
 import pygame as pg
+from Images import images
 from enum import Enum
 
 class Type(Enum):
@@ -21,13 +22,17 @@ class Color(Enum):
     BLACK = 1
 
 class Piece:
-    def __init__(self, color: Color, type: Type, square: list):
-        self.color = color
+    def __init__(self, type: Type, square: list):
         self.type = type
         self.square = square
     def draw(self, surf: pg.Surface, pos: tuple):
-        pass
+        image = images[self.type.value]
+        surf.blit(image, pos)
     def place(self, newSquare: list):
         self.square = newSquare
     def remove(self):
         self.square = None
+    def get_color(self) -> Color:
+        if self.type.value.isupper(): #white
+            return Color.WHITE
+        return Color.BLACK
