@@ -1,7 +1,7 @@
 import pygame as pg
 
 #load image
-pieces_image = pg.image.load('270px-Chess_Pieces_Sprite.png')
+pieces_image = pg.image.load('540px-Chess_Pieces_Sprite.png')
 piece_width = pieces_image.get_width() // 6
 piece_height = pieces_image.get_height() // 2
 
