@@ -1,8 +1,4 @@
-03/21/22
-Create images for each Chess piece
-
-Finish Piece.draw
-
+03/22/22
 Make skeleton for board class:
 Board.draw
 Board.update
