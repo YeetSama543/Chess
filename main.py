@@ -1,7 +1,9 @@
 import pygame as pg
-import App
+from App import *
 import Game
 import TitleScreen
+from Board import Board
+from Game_Constants import *
 
 def main():
     #game loop for title screen
@@ -27,9 +29,36 @@ def main():
         #update screen
         pg.display.update()
         #set max frame rate
-        App.clock.tick(60)
+        clock.tick(60)
+    
+    #create board
+    board = Board((0,0))
+    board.add_pieces()
+    if choice == 1: #human vs human
+        running = True
+        screen.fill(GAME_BG_COLOR)
+        board.draw(screen)
+        while running:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    running  = False
+            #update screen
+            pg.display.update()
+            #set max frame rate
+            clock.tick(60)
 
-
+    elif choice == 2: #human vs ai
+        running = True
+        screen.fill(GAME_BG_COLOR)
+        board.draw(screen)
+        while running:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    running  = False
+            #update screen
+            pg.display.update()
+            #set max frame rate
+            clock.tick(60)
     pg.quit()
 if __name__ == "__main__":
     main()
