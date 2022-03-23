@@ -15,7 +15,7 @@ class Board:
         self.pieces.append(Piece(Type.WHITE_ROOK, [7,7]))
         self.pieces.append(Piece(Type.BLACK_ROOK, [0,0]))
         self.pieces.append(Piece(Type.BLACK_ROOK, [0,7]))
-
+        
         #knights
         self.pieces.append(Piece(Type.WHITE_KNIGHT, [7,1]))
         self.pieces.append(Piece(Type.WHITE_KNIGHT, [7,6]))
@@ -48,6 +48,7 @@ class Board:
         x = self.pos[0] + (square[1] * SQUARE_SIZE)
         y = self.pos[1] + (square[0] * SQUARE_SIZE)
         return (x,y)
+
     def draw(self, surf: pg.Surface):
         #create light and dark squares
         light_square = pg.Surface((SQUARE_SIZE, SQUARE_SIZE))
@@ -65,6 +66,8 @@ class Board:
                     surf.blit(dark_square, topleft)
 
         #draw pieces
-
+        for piece in self.pieces:
+            piece_pos = self.square_to_topleft(piece.square)
+            piece.draw(surf, piece_pos)
     def move(self, new_square):
         pass
