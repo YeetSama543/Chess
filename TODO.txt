@@ -1,6 +1,4 @@
 03/22/22
-Make skeleton for board class:
-Board.draw
 Board.update
 Board.move_piece(start_square, end_square)
 Board.generate_attacked_squares(clicked_piece)
