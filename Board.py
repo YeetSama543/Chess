@@ -76,7 +76,7 @@ class Board:
             piece.draw(surf, piece_pos)
 
     def move(self, new_square): #moves clicked piece to new square
-        if not self.clicked_piece:
+        if self.clicked_piece:
             self.position[new_square[0]][new_square[1]] = self.clicked_piece
             self.position[self.clicked_piece.square[0]][self.clicked_piece.square[1]] = None
             self.clicked_piece.square = new_square
