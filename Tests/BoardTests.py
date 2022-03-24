@@ -55,3 +55,12 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(board.square_to_topleft([2,5]), (SQUARE_SIZE * 5,SQUARE_SIZE * 2))
         self.assertEqual(board.square_to_topleft([2,6]), (SQUARE_SIZE * 6,SQUARE_SIZE * 2))
         self.assertEqual(board.square_to_topleft([2,7]), (SQUARE_SIZE * 7,SQUARE_SIZE * 2))
+    def test_move(self):
+        #create second board to not mess up above tests
+        board2 = Board(POS)
+        board2.add_pieces()
+        #set clicked piece and move it
+        board2.clicked_piece = board2.position[0][0] #black rook on a8
+        board2.move([2,0])
+        
+        self.assertEqual(board2.position[2][0].type, Type.BLACK_ROOK)
