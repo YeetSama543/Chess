@@ -64,3 +64,15 @@ class TestBoard(unittest.TestCase):
         board2.move([2,0])
         
         self.assertEqual(board2.position[2][0].type, Type.BLACK_ROOK)
+    def test_get_piece_on_square(self):
+        self.assertEqual(board.get_piece_on_square([0,0]).type, Type.BLACK_ROOK)
+        self.assertEqual(board.get_piece_on_square([0,1]).type, Type.BLACK_KNIGHT)
+        self.assertEqual(board.get_piece_on_square([0,2]).type, Type.BLACK_BISHOP)
+        self.assertEqual(board.get_piece_on_square([0,3]).type, Type.BLACK_QUEEN)
+        self.assertEqual(board.get_piece_on_square([0,4]).type, Type.BLACK_KING)
+        self.assertEqual(board.get_piece_on_square([1,0]).type, Type.BLACK_PAWN)
+        self.assertEqual(board.get_piece_on_square([6,5]).type, Type.WHITE_PAWN)
+        self.assertEqual(board.get_piece_on_square([7,0]).type, Type.WHITE_ROOK)
+        self.assertEqual(board.get_piece_on_square([7,6]).type, Type.WHITE_KNIGHT)
+        self.assertEqual(board.get_piece_on_square([7,5]).type, Type.WHITE_BISHOP)
+        self.assertEqual(board.get_piece_on_square([3,3]), None)
