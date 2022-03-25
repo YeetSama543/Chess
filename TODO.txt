@@ -1,5 +1,6 @@
-03/22/22
-Board.update
-Board.move_piece(start_square, end_square)
-Board.generate_attacked_squares(clicked_piece)
+03/24/22
+work on highlight squares function in board class
+work on generate attacked squares function
+work on highlight attacked squares function
+determine what should go in game file
 
