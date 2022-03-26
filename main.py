@@ -34,14 +34,26 @@ def main():
     #create board
     board = Board((0,0))
     board.add_pieces()
+    #draw game screen + board
+    screen.fill(GAME_BG_COLOR)
+    board.draw(screen)
     if choice == 1: #human vs human
         running = True
-        screen.fill(GAME_BG_COLOR)
-        board.draw(screen)
         while running:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     running  = False
+                if event.type == pg.MOUSEBUTTONUP:
+                    mouse_pos = pg.mouse.get_pos()
+                    if Game.clicked_on_board(mouse_pos, board): #player clicked on board
+                        clicked_square = Game.get_clicked_square(mouse_pos, board)
+                        piece_on_clicked_square = board.get_piece_on_square(clicked_square)
+                        if piece_on_clicked_square: #player clicked on a piece
+                            board.clicked_piece = piece_on_clicked_square
+                            board.highlight_clicked_square(screen)
+                        else: #player clicked an empty square
+                            board.draw(screen) #removes any highlighted squares
+
             #update screen
             pg.display.update()
             #set max frame rate
@@ -51,6 +63,7 @@ def main():
         running = True
         screen.fill(GAME_BG_COLOR)
         board.draw(screen)
+
         while running:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
