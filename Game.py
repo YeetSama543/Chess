@@ -20,3 +20,27 @@ def clicked_on_board(mouse_pos: tuple, board: Board) -> bool:
             return True
     return False
 
+def __generate_attacked_squares_pawn(pawn: Piece):
+    pass
+def __generate_attacked_squares_knight(knight: Piece):
+    pass
+def __generate_attacked_squares_rook(rook: Piece):
+    pass
+def __generate_attacked_squares_bishop(bishop: Piece):
+    pass
+def __generate_attacked_squares_queen(queen: Piece):
+    pass
+def __generate_attacked_squares_king(king: Piece):
+    pass
+
+def generate_attacked_pieces(piece: Piece, board: Board):
+    pass
+
+def is_check(board: Board):
+    pass
+
+def is_win(board: Board):
+    pass
+
+def change_turn(board: Board):
+    pass
