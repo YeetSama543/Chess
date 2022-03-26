@@ -19,3 +19,4 @@ def clicked_on_board(mouse_pos: tuple, board: Board) -> bool:
         if mouse_pos[1] > min_y and mouse_pos[1] < max_y:
             return True
     return False
+
