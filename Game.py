@@ -1,5 +1,6 @@
 #contains functionality of the game
 
+from operator import attrgetter
 from Board import Board
 from Piece import *
 from Game_Constants import *
@@ -25,6 +26,7 @@ def is_valid_square(square: list) -> bool:
         return False
     return True
 
+#these move generating helper functions DO NOT account for special rules, such as check and E.P.
 def __generate_attacked_squares_pawn(pawn: Piece, board: Board):
     attacked_squares = []
     #determine if the pawn has previously moved
@@ -59,17 +61,190 @@ def __generate_attacked_squares_pawn(pawn: Piece, board: Board):
     if is_valid_square(diag_right) and board.get_piece_on_square(diag_right):
         if board.get_piece_on_square(diag_right).get_color() != pawn.get_color():
             attacked_squares.append(diag_right)
+    return attacked_squares
 
-def __generate_attacked_squares_knight(knight: Piece):
-    pass
-def __generate_attacked_squares_rook(rook: Piece):
-    pass
-def __generate_attacked_squares_bishop(bishop: Piece):
-    pass
-def __generate_attacked_squares_queen(queen: Piece):
-    pass
-def __generate_attacked_squares_king(king: Piece):
-    pass
+def __generate_attacked_squares_knight(knight: Piece, board: Board):
+    attacked_squares = []
+    for i in [-2,2]:
+        for j in [-1,1]:
+            potential_square_vertical = [knight.square[0] + i, knight.square[1] + j]
+            potential_square_horizontal = [knight.square[0] + j, knight.square[1] + i]
+
+            if is_valid_square(potential_square_vertical):
+                if not board.get_piece_on_square(potential_square_vertical): #no piece on square
+                    attacked_squares.append(potential_square_vertical)
+                elif board.get_piece_on_square(potential_square_vertical).get_color() != knight.get_color:
+                    attacked_squares.append(potential_square_vertical)
+            
+            if is_valid_square(potential_square_horizontal):
+                if not board.get_piece_on_square(potential_square_horizontal): #no piece on square
+                    attacked_squares.append(potential_square_horizontal)
+                elif board.get_piece_on_square(potential_square_horizontal).get_color() != knight.get_color:
+                    attacked_squares.append(potential_square_horizontal)
+
+    return attacked_squares
+    
+def __generate_attacked_squares_rook(rook: Piece, board: Board):
+    attacked_squares = []
+    #up
+    valid = True
+    row = rook.square[0]
+    col = rook.square[1]
+    while valid:
+        row -= 1
+        potential_square = [row, col]
+        if is_valid_square(potential_square):
+            if not board.get_piece_on_square(potential_square):
+                attacked_squares.append(potential_square)
+            elif board.get_piece_on_square(potential_square).get_color() != rook.get_color():
+                attacked_squares.append(potential_square)
+                valid = False #square was valid, but next one will not be
+        else:
+            valid = False
+    #down
+    valid = True
+    row = rook.square[0]
+    col = rook.square[1]
+    while valid:
+        row += 1
+        potential_square = [row, col]
+        if is_valid_square(potential_square):
+            if not board.get_piece_on_square(potential_square):
+                attacked_squares.append(potential_square)
+            elif board.get_piece_on_square(potential_square).get_color() != rook.get_color():
+                attacked_squares.append(potential_square)
+                valid = False #square was valid, but next one will not be
+        else:
+            valid = False
+    #right
+    valid = True
+    row = rook.square[0]
+    col = rook.square[1]
+    while valid:
+        col += 1
+        potential_square = [row, col]
+        if is_valid_square(potential_square):
+            if not board.get_piece_on_square(potential_square):
+                attacked_squares.append(potential_square)
+            elif board.get_piece_on_square(potential_square).get_color() != rook.get_color():
+                attacked_squares.append(potential_square)
+                valid = False #square was valid, but next one will not be
+        else:
+            valid = False
+    #left
+    valid = True
+    row = rook.square[0]
+    col = rook.square[1]
+    while valid:
+        col -= 1
+        potential_square = [row, col]
+        if is_valid_square(potential_square):
+            if not board.get_piece_on_square(potential_square):
+                attacked_squares.append(potential_square)
+            elif board.get_piece_on_square(potential_square).get_color() != rook.get_color():
+                attacked_squares.append(potential_square)
+                valid = False #square was valid, but next one will not be
+        else:
+            valid = False
+
+    return attacked_squares
+
+def __generate_attacked_squares_bishop(bishop: Piece, board: Board):
+    attacked_squares = []
+
+    #down-right
+    valid = True
+    row = bishop.square[0]
+    col = bishop.square[1]
+    while valid:
+        row += 1
+        col += 1
+        potential_square = [row, col]
+        if is_valid_square(potential_square):
+            if not board.get_piece_on_square(potential_square):
+                attacked_squares.append(potential_square)
+            elif board.get_piece_on_square(potential_square).get_color() != bishop.get_color():
+                attacked_squares.append(potential_square)
+                valid = False #square was valid, but next one will not be
+        else:
+            valid = False
+    #down-left
+    valid = True
+    row = bishop.square[0]
+    col = bishop.square[1]
+    while valid:
+        row += 1
+        col -= 1
+        potential_square = [row, col]
+        if is_valid_square(potential_square):
+            if not board.get_piece_on_square(potential_square):
+                attacked_squares.append(potential_square)
+            elif board.get_piece_on_square(potential_square).get_color() != bishop.get_color():
+                attacked_squares.append(potential_square)
+                valid = False #square was valid, but next one will not be
+        else:
+            valid = False
+    #up-right
+    valid = True
+    row = bishop.square[0]
+    col = bishop.square[1]
+    while valid:
+        row -= 1
+        col += 1
+        potential_square = [row, col]
+        if is_valid_square(potential_square):
+            if not board.get_piece_on_square(potential_square):
+                attacked_squares.append(potential_square)
+            elif board.get_piece_on_square(potential_square).get_color() != bishop.get_color():
+                attacked_squares.append(potential_square)
+                valid = False #square was valid, but next one will not be
+        else:
+            valid = False
+    #up-left
+    valid = True
+    row = bishop.square[0]
+    col = bishop.square[1]
+    while valid:
+        row -= 1
+        col -= 1
+        potential_square = [row, col]
+        if is_valid_square(potential_square):
+            if not board.get_piece_on_square(potential_square):
+                attacked_squares.append(potential_square)
+            elif board.get_piece_on_square(potential_square).get_color() != bishop.get_color():
+                attacked_squares.append(potential_square)
+                valid = False #square was valid, but next one will not be
+        else:
+            valid = False
+
+    return attacked_squares
+def __generate_attacked_squares_queen(queen: Piece, board: Board):
+    #queen is combination of rook and bishop
+    #so generate moves for rook and bishop and return both together
+
+    attacked_squares = []
+    rook_squares = __generate_attacked_squares_rook(queen, board)
+    bishop_squares = __generate_attacked_squares_bishop(queen, board)
+    
+    attacked_squares.append(rook_squares)
+    attacked_squares.append(bishop_squares)
+
+    return attacked_squares
+def __generate_attacked_squares_king(king: Piece, board: Board):
+    attacked_squares = []
+    #we include the original square of the king as part of the squares we check in the
+    #following for loop, but since the king's color is equal to itself, the square won't be added
+    
+    for i in [-1, 0, 1]:
+        for j in [-1, 0, 1]:
+            potential_square = [king.square[0] + i, king.square[1] + j]
+            if is_valid_square(potential_square):
+                if not board.get_piece_on_square(potential_square): #no piece on square
+                    attacked_squares.append(potential_square)
+                elif board.get_piece_on_square(potential_square).get_color() != king.get_color():
+                    attacked_squares.append(potential_square)
+
+    return attacked_squares
 
 def generate_attacked_pieces(piece: Piece, board: Board):
     pass
