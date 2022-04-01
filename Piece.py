@@ -30,8 +30,6 @@ class Piece:
         surf.blit(image, pos)
     def place(self, newSquare: list):
         self.square = newSquare
-    def remove(self):
-        self.square = None
     def get_color(self) -> Color:
         if self.type.value.isupper(): #white
             return Color.WHITE
