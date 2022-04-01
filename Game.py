@@ -80,7 +80,6 @@ def __generate_attacked_squares_knight(knight: Piece, board: Board):
                     attacked_squares.append(potential_square_horizontal)
                 elif board.get_piece_on_square(potential_square_horizontal).get_color() != knight.get_color():
                     attacked_squares.append(potential_square_horizontal)
-    print(attacked_squares)
     return attacked_squares
     
 def __generate_attacked_squares_rook(rook: Piece, board: Board):
