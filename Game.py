@@ -98,6 +98,8 @@ def __generate_attacked_squares_rook(rook: Piece, board: Board):
             elif board.get_piece_on_square(potential_square).get_color() != rook.get_color():
                 attacked_squares.append(potential_square)
                 valid = False #square was valid, but next one will not be
+            elif board.get_piece_on_square(potential_square).get_color() == rook.get_color():
+                valid = False
         else:
             valid = False
     #down
@@ -113,6 +115,8 @@ def __generate_attacked_squares_rook(rook: Piece, board: Board):
             elif board.get_piece_on_square(potential_square).get_color() != rook.get_color():
                 attacked_squares.append(potential_square)
                 valid = False #square was valid, but next one will not be
+            elif board.get_piece_on_square(potential_square).get_color() == rook.get_color():
+                valid = False
         else:
             valid = False
     #right
@@ -128,6 +132,8 @@ def __generate_attacked_squares_rook(rook: Piece, board: Board):
             elif board.get_piece_on_square(potential_square).get_color() != rook.get_color():
                 attacked_squares.append(potential_square)
                 valid = False #square was valid, but next one will not be
+            elif board.get_piece_on_square(potential_square).get_color() == rook.get_color():
+                valid = False
         else:
             valid = False
     #left
@@ -143,6 +149,8 @@ def __generate_attacked_squares_rook(rook: Piece, board: Board):
             elif board.get_piece_on_square(potential_square).get_color() != rook.get_color():
                 attacked_squares.append(potential_square)
                 valid = False #square was valid, but next one will not be
+            elif board.get_piece_on_square(potential_square).get_color() == rook.get_color():
+                valid = False
         else:
             valid = False
 
@@ -165,6 +173,8 @@ def __generate_attacked_squares_bishop(bishop: Piece, board: Board):
             elif board.get_piece_on_square(potential_square).get_color() != bishop.get_color():
                 attacked_squares.append(potential_square)
                 valid = False #square was valid, but next one will not be
+            elif board.get_piece_on_square(potential_square).get_color() == bishop.get_color():
+                valid = False
         else:
             valid = False
     #down-left
@@ -181,6 +191,8 @@ def __generate_attacked_squares_bishop(bishop: Piece, board: Board):
             elif board.get_piece_on_square(potential_square).get_color() != bishop.get_color():
                 attacked_squares.append(potential_square)
                 valid = False #square was valid, but next one will not be
+            elif board.get_piece_on_square(potential_square).get_color() == bishop.get_color():
+                valid = False
         else:
             valid = False
     #up-right
@@ -197,6 +209,8 @@ def __generate_attacked_squares_bishop(bishop: Piece, board: Board):
             elif board.get_piece_on_square(potential_square).get_color() != bishop.get_color():
                 attacked_squares.append(potential_square)
                 valid = False #square was valid, but next one will not be
+            elif board.get_piece_on_square(potential_square).get_color() == bishop.get_color():
+                valid = False
         else:
             valid = False
     #up-left
@@ -213,6 +227,8 @@ def __generate_attacked_squares_bishop(bishop: Piece, board: Board):
             elif board.get_piece_on_square(potential_square).get_color() != bishop.get_color():
                 attacked_squares.append(potential_square)
                 valid = False #square was valid, but next one will not be
+            elif board.get_piece_on_square(potential_square).get_color() == bishop.get_color():
+                valid = False
         else:
             valid = False
 
@@ -221,12 +237,9 @@ def __generate_attacked_squares_queen(queen: Piece, board: Board):
     #queen is combination of rook and bishop
     #so generate moves for rook and bishop and return both together
 
-    attacked_squares = []
     rook_squares = __generate_attacked_squares_rook(queen, board)
     bishop_squares = __generate_attacked_squares_bishop(queen, board)
-    
-    attacked_squares.append(rook_squares)
-    attacked_squares.append(bishop_squares)
+    attacked_squares = rook_squares + bishop_squares
 
     return attacked_squares
 def __generate_attacked_squares_king(king: Piece, board: Board):
