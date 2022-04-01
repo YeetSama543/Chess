@@ -30,11 +30,11 @@ def is_valid_square(square: list) -> bool:
 def __generate_attacked_squares_pawn(pawn: Piece, board: Board):
     attacked_squares = []
     #determine if the pawn has previously moved
-    has_moved = False
+    has_moved = True
     if pawn.get_color() == Color.WHITE and pawn.square[0] == 6:
-        has_moved = True
+        has_moved = False
     elif pawn.get_color() == Color.BLACK and pawn.square[0] == 1:
-        has_moved = True
+        has_moved = False
 
     #use color to determine candidate squares to add
     if pawn.get_color() == Color.WHITE:
@@ -234,7 +234,7 @@ def __generate_attacked_squares_king(king: Piece, board: Board):
     attacked_squares = []
     #we include the original square of the king as part of the squares we check in the
     #following for loop, but since the king's color is equal to itself, the square won't be added
-    
+
     for i in [-1, 0, 1]:
         for j in [-1, 0, 1]:
             potential_square = [king.square[0] + i, king.square[1] + j]
@@ -246,9 +246,24 @@ def __generate_attacked_squares_king(king: Piece, board: Board):
 
     return attacked_squares
 
-def generate_attacked_pieces(piece: Piece, board: Board):
-    pass
+def generate_attacked_squares(piece: Piece, board: Board):
+    attacked_squares = []
+    if piece.type == Type.BLACK_PAWN or Type.WHITE_PAWN:
+        attacked_squares = __generate_attacked_squares_pawn(piece,board)
+    elif piece.type == Type.BLACK_ROOK or Type.WHITE_ROOK:
+        attacked_squares = __generate_attacked_squares_rook(piece,board)
+    elif piece.type == Type.BLACK_KNIGHT or Type.WHITE_KNIGHT:
+        attacked_squares = __generate_attacked_squares_knight(piece,board)
+    elif piece.type == Type.BLACK_BISHOP or Type.WHITE_BISHOP:
+        attacked_squares = __generate_attacked_squares_bishop(piece,board)
+    elif piece.type == Type.BLACK_QUEEN or Type.WHITE_QUEEN:
+        attacked_squares = __generate_attacked_squares_queen(piece,board)
+    elif piece.type == Type.BLACK_KING or Type.WHITE_KING:
+        attacked_squares = __generate_attacked_squares_king(piece,board)
+    ###Handle special rules here###
 
+    ###############################
+    return attacked_squares
 def is_check(board: Board):
     pass
 
