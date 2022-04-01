@@ -107,3 +107,8 @@ class Board:
             piece_on_square = self.get_piece_on_square(square)
             if piece_on_square:
                 piece_on_square.draw(surf, topleft)
+
+    def click_piece(self, screen: pg.Surface, piece: Piece, attacked_squares: list): #highlights piece, attacked squares
+        self.clicked_piece = piece
+        self.highlight_clicked_square(screen)
+        self.highlight_attacked_squares(screen, attacked_squares)
