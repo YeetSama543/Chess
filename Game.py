@@ -80,7 +80,7 @@ def __generate_attacked_squares_knight(knight: Piece, board: Board):
                     attacked_squares.append(potential_square_horizontal)
                 elif board.get_piece_on_square(potential_square_horizontal).get_color() != knight.get_color():
                     attacked_squares.append(potential_square_horizontal)
-
+    print(attacked_squares)
     return attacked_squares
     
 def __generate_attacked_squares_rook(rook: Piece, board: Board):
@@ -247,17 +247,17 @@ def __generate_attacked_squares_king(king: Piece, board: Board):
 
 def generate_attacked_squares(piece: Piece, board: Board):
     attacked_squares = []
-    if piece.type == Type.BLACK_PAWN or Type.WHITE_PAWN:
+    if piece.type == Type.BLACK_PAWN or piece.type == Type.WHITE_PAWN:
         attacked_squares = __generate_attacked_squares_pawn(piece,board)
-    elif piece.type == Type.BLACK_ROOK or Type.WHITE_ROOK:
+    elif piece.type == Type.BLACK_ROOK or piece.type == Type.WHITE_ROOK:
         attacked_squares = __generate_attacked_squares_rook(piece,board)
-    elif piece.type == Type.BLACK_KNIGHT or Type.WHITE_KNIGHT:
+    elif piece.type == Type.BLACK_KNIGHT or piece.type == Type.WHITE_KNIGHT:
         attacked_squares = __generate_attacked_squares_knight(piece,board)
-    elif piece.type == Type.BLACK_BISHOP or Type.WHITE_BISHOP:
+    elif piece.type == Type.BLACK_BISHOP or piece.type == Type.WHITE_BISHOP:
         attacked_squares = __generate_attacked_squares_bishop(piece,board)
-    elif piece.type == Type.BLACK_QUEEN or Type.WHITE_QUEEN:
+    elif piece.type == Type.BLACK_QUEEN or piece.type == Type.WHITE_QUEEN:
         attacked_squares = __generate_attacked_squares_queen(piece,board)
-    elif piece.type == Type.BLACK_KING or Type.WHITE_KING:
+    elif piece.type == Type.BLACK_KING or piece.type == Type.WHITE_KING:
         attacked_squares = __generate_attacked_squares_king(piece,board)
     ###Handle special rules here###
 
