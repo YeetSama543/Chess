@@ -1,6 +1,5 @@
 #contains functionality of the game
 
-from operator import attrgetter
 from Board import Board
 from Piece import *
 from Game_Constants import *
@@ -73,13 +72,13 @@ def __generate_attacked_squares_knight(knight: Piece, board: Board):
             if is_valid_square(potential_square_vertical):
                 if not board.get_piece_on_square(potential_square_vertical): #no piece on square
                     attacked_squares.append(potential_square_vertical)
-                elif board.get_piece_on_square(potential_square_vertical).get_color() != knight.get_color:
+                elif board.get_piece_on_square(potential_square_vertical).get_color() != knight.get_color():
                     attacked_squares.append(potential_square_vertical)
             
             if is_valid_square(potential_square_horizontal):
                 if not board.get_piece_on_square(potential_square_horizontal): #no piece on square
                     attacked_squares.append(potential_square_horizontal)
-                elif board.get_piece_on_square(potential_square_horizontal).get_color() != knight.get_color:
+                elif board.get_piece_on_square(potential_square_horizontal).get_color() != knight.get_color():
                     attacked_squares.append(potential_square_horizontal)
 
     return attacked_squares
