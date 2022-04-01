@@ -45,14 +45,25 @@ def main():
                     running  = False
                 if event.type == pg.MOUSEBUTTONUP:
                     mouse_pos = pg.mouse.get_pos()
+
                     if Game.clicked_on_board(mouse_pos, board): #player clicked on board
                         clicked_square = Game.get_clicked_square(mouse_pos, board)
                         piece_on_clicked_square = board.get_piece_on_square(clicked_square)
-                        if piece_on_clicked_square: #player clicked on a piece
-                            board.clicked_piece = piece_on_clicked_square
-                            board.highlight_clicked_square(screen)
-                        else: #player clicked an empty square
-                            board.draw(screen) #removes any highlighted squares
+
+                        if board.clicked_piece: #piece is selected
+                            attacked_squares = Game.generate_attacked_squares(board.clicked_piece, board)
+                            #check if an attacked square was clicked
+                            if clicked_square in attacked_squares:
+                                board.move(clicked_square)
+                            else:
+                                board.clicked_piece = None
+                            #redraw board
+                            board.draw(screen)
+                        else: #no piece is selected
+                            if piece_on_clicked_square:
+                                attacked_squares = Game.generate_attacked_squares(piece_on_clicked_square, board)
+                                board.click_piece(screen, piece_on_clicked_square, attacked_squares)
+                        
 
             #update screen
             pg.display.update()
