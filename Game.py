@@ -275,11 +275,22 @@ def generate_attacked_squares(piece: Piece, board: Board):
 
     ###############################
     return attacked_squares
+
 def is_check(board: Board):
     pass
 
-def is_win(board: Board):
+def is_win(board: Board, turn: int):
     pass
 
-def change_turn(board: Board):
+def change_turn(board: Board, turn: int): #changes turn and return it. Also resets clicked piece
+    turn += 1
+    turn %= 2
+    board.clicked_piece = None
+
+    return turn
+
+def pawn_promotion():
+    pass
+
+def ep():
     pass
