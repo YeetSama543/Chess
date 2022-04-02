@@ -54,6 +54,8 @@ def main():
                             attacked_squares = Game.generate_attacked_squares(board.clicked_piece, board)
                             #check if an attacked square was clicked
                             if clicked_square in attacked_squares:
+                                if piece_on_clicked_square:
+                                    board.remove_piece(piece_on_clicked_square)
                                 board.move(clicked_square)
                             else:
                                 board.clicked_piece = None
