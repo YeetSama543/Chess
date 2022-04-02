@@ -112,3 +112,10 @@ class Board:
         self.clicked_piece = piece
         self.highlight_clicked_square(screen)
         self.highlight_attacked_squares(screen, attacked_squares)
+
+    def remove_piece(self, piece_to_remove: Piece):
+        for piece in self.pieces:
+            if piece.square == piece_to_remove.square:
+                self.pieces.remove(piece)
+                return True
+        return False
