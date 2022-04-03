@@ -325,8 +325,8 @@ def change_turn(board: Board, turn: int): #changes turn and return it. Also rese
 
     return turn
 
-def pawn_promotion():
-    pass
+def pawn_promotion(board: Board) -> bool: #returns true if a pawn can promote, false otherwise
+    
 
 def ep():
     pass
