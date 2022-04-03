@@ -232,6 +232,7 @@ def __generate_attacked_squares_bishop(bishop: Piece, board: Board):
             valid = False
 
     return attacked_squares
+
 def __generate_attacked_squares_queen(queen: Piece, board: Board):
     #queen is combination of rook and bishop
     #so generate moves for rook and bishop and return both together
@@ -241,6 +242,7 @@ def __generate_attacked_squares_queen(queen: Piece, board: Board):
     attacked_squares = rook_squares + bishop_squares
 
     return attacked_squares
+
 def __generate_attacked_squares_king(king: Piece, board: Board):
     attacked_squares = []
     #we include the original square of the king as part of the squares we check in the
@@ -276,7 +278,7 @@ def generate_attacked_squares(piece: Piece, board: Board):
     ###############################
     return attacked_squares
 
-def is_check(board: Board):
+def is_check(board: Board, turn: int) -> bool:
     pass
 
 def is_win(board: Board, turn: int):
