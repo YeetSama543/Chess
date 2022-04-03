@@ -279,7 +279,41 @@ def generate_attacked_squares(piece: Piece, board: Board):
     return attacked_squares
 
 def is_check(board: Board, turn: int) -> bool:
-    pass
+    if turn == 0: #white's turn
+        #find the king's square
+        king_square = []
+        for piece in board.pieces:
+            if piece.type == Type.WHITE_KING:
+                king_square = piece.square
+                break
+        #check if any piece is attacking the king
+        potential_squares = __generate_attacked_squares_queen(piece, board)
+        potential_squares += __generate_attacked_squares_knight(piece, board)
+
+        for square in potential_squares:
+            piece_on_square = board.get_piece_on_square(square)
+            if piece_on_square: #enemy piece is on square
+                attacked_squares = generate_attacked_squares(piece_on_square, board)
+                if king_square in attacked_squares:
+                    return True
+        return False
+    else: #black's turn
+        #find the king's square
+        king_square = []
+        for piece in board.pieces:
+            if piece.type == Type.BLACK_KING:
+                king_square = piece.square
+                break
+        #check if any piece is attacking the king
+        potential_squares = __generate_attacked_squares_queen(piece, board)
+        potential_squares += __generate_attacked_squares_knight(piece, board)
+        
+        for square in potential_squares:
+            piece_on_square = board.get_piece_on_square(square)
+            if piece_on_square: #enemy piece is on square
+                attacked_squares = generate_attacked_squares(piece_on_square, board)
+                if king_square in attacked_squares:
+                    return True
 
 def is_win(board: Board, turn: int):
     pass
