@@ -326,7 +326,17 @@ def change_turn(board: Board, turn: int): #changes turn and return it. Also rese
     return turn
 
 def pawn_promotion(board: Board) -> bool: #returns true if a pawn can promote, false otherwise
-    
+    for i in range(8):
+        p1 = board.get_piece_on_square([0, i])
+        p2 = board.get_piece_on_square([7, i])
+
+        if p1:
+            if p1.type == Type.WHITE_PAWN:
+                return True
+        if p2:
+            if p2.type == Type.BLACK_PAWN:
+                return True
+    return False
 
 def ep():
     pass
