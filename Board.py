@@ -44,6 +44,10 @@ class Board:
         for piece in self.pieces:
             self.position[piece.square[0]][piece.square[1]] = piece
 
+    def add(self, piece: Piece): #adds a single piece to board
+        self.pieces.append(piece)
+        self.position[piece.square[0]][piece.square[1]] = piece
+
     def square_to_topleft(self, square: list) -> tuple: #returns topleft position of corresponding square
         x = self.pos[0] + (square[1] * SQUARE_SIZE)
         y = self.pos[1] + (square[0] * SQUARE_SIZE)
