@@ -325,18 +325,46 @@ def change_turn(board: Board, turn: int): #changes turn and return it. Also rese
 
     return turn
 
-def pawn_promotion(board: Board) -> bool: #returns true if a pawn can promote, false otherwise
+def pawn_promotion(board: Board) -> bool: #returns promotion square if a pawn can promote, None otherwise
     for i in range(8):
         p1 = board.get_piece_on_square([0, i])
         p2 = board.get_piece_on_square([7, i])
 
         if p1:
             if p1.type == Type.WHITE_PAWN:
-                return True
+                board.remove_piece(p1)
+                board.position[p1.square[0]][p1.square[1]] = None
+                return p1.square
         if p2:
             if p2.type == Type.BLACK_PAWN:
-                return True
-    return False
+                board.remove_piece(p2)
+                board.position[p2.square[0]][p2.square[1]] = None
+                return p2.square
+    return None
+
+def promote_to_queen(board: Board, square: list):
+    if square[0] == 0:
+        board.add(Piece(Type.WHITE_QUEEN), square)
+    elif square[0] == 7:
+        board.add(Piece(Type.BLACK_QUEEN), square)
+
+def promote_to_knight(board: Board, square: list):
+    if square[0] == 0:
+        board.add(Piece(Type.WHITE_KNIGHT), square)
+    elif square[0] == 7:
+        board.add(Piece(Type.BLACK_KNIGHT), square)
+
+def promote_to_bishop(board: Board, square: list):
+    if square[0] == 0:
+        board.add(Piece(Type.WHITE_BISHOP), square)
+    elif square[0] == 7:
+        board.add(Piece(Type.BLACK_BISHOP), square)
+
+def promote_to_rook(board: Board, square: list):
+    if square[0] == 0:
+        board.add(Piece(Type.WHITE_ROOK), square)
+    elif square[0] == 7:
+        board.add(Piece(Type.BLACK_ROOK), square)
 
 def ep():
     pass
