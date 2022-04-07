@@ -40,7 +40,6 @@ def main():
     board.draw(screen)
     if choice == 1: #human vs human
         running = True
-        turn = 0
         while running:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -69,10 +68,10 @@ def main():
                                     board.draw(screen) #make sure screen updates
                                     pg.display.flip()
 
-                                    Game.promote(board, promotion_square, turn) #promote pawn, takes keyboard input
+                                    Game.promote(board, promotion_square) #promote pawn, takes keyboard input
 
                                 #change the turn
-                                turn = Game.change_turn(board, turn)
+                                Game.change_turn(board)
 
                             else: #pressed a square the piece can't move to
                                 board.clicked_piece = None
@@ -87,7 +86,7 @@ def main():
                                 #attacked square generation is handled without regard to turn, so
                                 #there is no need to consider turn anywhere else but here
 
-                                if turn == 0: #white to move
+                                if Game.turn == 0: #white to move
                                     if piece_on_clicked_square.get_color() == Color.WHITE:
                                         attacked_squares = Game.generate_attacked_squares(piece_on_clicked_square, board)
                                         board.click_piece(screen, piece_on_clicked_square, attacked_squares)
