@@ -321,11 +321,10 @@ def is_win(board: Board):
     pass
 
 def change_turn(board: Board): #changes turn. Also resets clicked piece
+    global turn
     turn += 1
     turn %= 2
     board.clicked_piece = None
-
-    return turn
 
 def pawn_promotion(board: Board) -> bool: #returns promotion square if a pawn can promote, None otherwise
     for i in range(8):
@@ -377,7 +376,7 @@ def get_pawn_promotion_choice(board: Board) -> Type:
     return choice
 
 def promote(board: Board, square: list):
-    choice = get_pawn_promotion_choice(board, turn)
+    choice = get_pawn_promotion_choice(board)
 
     board.remove_piece(board.get_piece_on_square(square))
     board.add(Piece(choice, square))
