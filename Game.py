@@ -332,39 +332,53 @@ def pawn_promotion(board: Board) -> bool: #returns promotion square if a pawn ca
 
         if p1:
             if p1.type == Type.WHITE_PAWN:
-                board.remove_piece(p1)
-                board.position[p1.square[0]][p1.square[1]] = None
                 return p1.square
         if p2:
             if p2.type == Type.BLACK_PAWN:
-                board.remove_piece(p2)
-                board.position[p2.square[0]][p2.square[1]] = None
                 return p2.square
     return None
 
-def promote_to_queen(board: Board, square: list):
-    if square[0] == 0:
-        board.add(Piece(Type.WHITE_QUEEN, square))
-    elif square[0] == 7:
-        board.add(Piece(Type.BLACK_QUEEN, square))
+def get_pawn_promotion_choice(board: Board, turn) -> Type:
+    valid_choice = False
+    while not valid_choice:
+        for event in pg.event.get():
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_q:
+                    if turn == 0: #white
+                        choice = Type.WHITE_QUEEN
+                    else: #black
+                        choice = Type.BLACK_QUEEN
+                    
+                    valid_choice = True
+                if event.key == pg.K_n:
+                    if turn == 0: #white
+                        choice = Type.WHITE_KNIGHT
+                    else: #black
+                        choice = Type.BLACK_KNIGHT
 
-def promote_to_knight(board: Board, square: list):
-    if square[0] == 0:
-        board.add(Piece(Type.WHITE_KNIGHT, square))
-    elif square[0] == 7:
-        board.add(Piece(Type.BLACK_KNIGHT, square))
+                    valid_choice = True
+                if event.key == pg.K_b:
+                    if turn == 0: #white
+                        choice = Type.WHITE_BISHOP
+                    else: #black
+                        choice = Type.BLACK_BISHOP
 
-def promote_to_bishop(board: Board, square: list):
-    if square[0] == 0:
-        board.add(Piece(Type.WHITE_BISHOP, square))
-    elif square[0] == 7:
-        board.add(Piece(Type.BLACK_BISHOP, square))
+                    valid_choice = True
+                if event.key == pg.K_r:
+                    if turn == 0: #white
+                        choice = Type.WHITE_ROOK
+                    else: #black
+                        choice = Type.BLACK_ROOK
 
-def promote_to_rook(board: Board, square: list):
-    if square[0] == 0:
-        board.add(Piece(Type.WHITE_ROOK, square))
-    elif square[0] == 7:
-        board.add(Piece(Type.BLACK_ROOK, square))
+                    valid_choice = True
+
+    return choice
+
+def promote(board: Board, square: list, turn):
+    choice = get_pawn_promotion_choice(board, turn)
+
+    board.remove_piece(board.get_piece_on_square(square))
+    board.add(Piece(choice, square))
 
 def ep():
     pass
