@@ -54,18 +54,32 @@ def main():
 
                         if board.clicked_piece: #piece is selected
                             attacked_squares = Game.generate_attacked_squares(board.clicked_piece, board)
+
                             #check if an attacked square was clicked
                             if clicked_square in attacked_squares:
                                 if piece_on_clicked_square:
                                     board.remove_piece(piece_on_clicked_square)
+
                                 #move piece
                                 board.move(clicked_square)
-                                #since a move was made, change the turn
+                                
+                                #handle pawn promotion
+                                promotion_square = Game.pawn_promotion(board)
+                                if promotion_square: #a pawn promotes
+                                    board.draw(screen) #make sure screen updates
+                                    pg.display.flip()
+
+                                    Game.promote(board, promotion_square, turn) #promote pawn, takes keyboard input
+
+                                #change the turn
                                 turn = Game.change_turn(board, turn)
+
                             else: #pressed a square the piece can't move to
                                 board.clicked_piece = None
+
                             #redraw board
                             board.draw(screen)
+
                         else: #no piece is selected
                             if piece_on_clicked_square:
                                 #If it is white to move, allow white to select a white piece.
@@ -77,6 +91,7 @@ def main():
                                     if piece_on_clicked_square.get_color() == Color.WHITE:
                                         attacked_squares = Game.generate_attacked_squares(piece_on_clicked_square, board)
                                         board.click_piece(screen, piece_on_clicked_square, attacked_squares)
+
                                 else: #black to move
                                     if piece_on_clicked_square.get_color() == Color.BLACK:
                                         attacked_squares = Game.generate_attacked_squares(piece_on_clicked_square, board)
