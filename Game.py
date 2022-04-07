@@ -4,6 +4,8 @@ from Board import Board
 from Piece import *
 from Game_Constants import *
 
+turn = 0
+
 def get_clicked_square(mouse_pos: tuple, board: Board) -> list:
     relative_x = mouse_pos[0] - board.pos[0]
     relative_y = mouse_pos[1] - board.pos[1]
@@ -278,7 +280,7 @@ def generate_attacked_squares(piece: Piece, board: Board):
     ###############################
     return attacked_squares
 
-def is_check(board: Board, turn: int) -> bool:
+def is_check(board: Board) -> bool:
     if turn == 0: #white's turn
         #find the king's square
         king_square = []
@@ -315,10 +317,10 @@ def is_check(board: Board, turn: int) -> bool:
                 if king_square in attacked_squares:
                     return True
 
-def is_win(board: Board, turn: int):
+def is_win(board: Board):
     pass
 
-def change_turn(board: Board, turn: int): #changes turn and return it. Also resets clicked piece
+def change_turn(board: Board): #changes turn. Also resets clicked piece
     turn += 1
     turn %= 2
     board.clicked_piece = None
@@ -338,7 +340,7 @@ def pawn_promotion(board: Board) -> bool: #returns promotion square if a pawn ca
                 return p2.square
     return None
 
-def get_pawn_promotion_choice(board: Board, turn) -> Type:
+def get_pawn_promotion_choice(board: Board) -> Type:
     valid_choice = False
     while not valid_choice:
         for event in pg.event.get():
@@ -374,7 +376,7 @@ def get_pawn_promotion_choice(board: Board, turn) -> Type:
 
     return choice
 
-def promote(board: Board, square: list, turn):
+def promote(board: Board, square: list):
     choice = get_pawn_promotion_choice(board, turn)
 
     board.remove_piece(board.get_piece_on_square(square))
