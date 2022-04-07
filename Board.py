@@ -120,6 +120,7 @@ class Board:
     def remove_piece(self, piece_to_remove: Piece):
         for piece in self.pieces:
             if piece.square == piece_to_remove.square:
+                self.position[piece.square[0]][piece.square[1]] = None
                 self.pieces.remove(piece)
                 return True
         return False
