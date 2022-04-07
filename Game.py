@@ -344,27 +344,27 @@ def pawn_promotion(board: Board) -> bool: #returns promotion square if a pawn ca
 
 def promote_to_queen(board: Board, square: list):
     if square[0] == 0:
-        board.add(Piece(Type.WHITE_QUEEN), square)
+        board.add(Piece(Type.WHITE_QUEEN, square))
     elif square[0] == 7:
-        board.add(Piece(Type.BLACK_QUEEN), square)
+        board.add(Piece(Type.BLACK_QUEEN, square))
 
 def promote_to_knight(board: Board, square: list):
     if square[0] == 0:
-        board.add(Piece(Type.WHITE_KNIGHT), square)
+        board.add(Piece(Type.WHITE_KNIGHT, square))
     elif square[0] == 7:
-        board.add(Piece(Type.BLACK_KNIGHT), square)
+        board.add(Piece(Type.BLACK_KNIGHT, square))
 
 def promote_to_bishop(board: Board, square: list):
     if square[0] == 0:
-        board.add(Piece(Type.WHITE_BISHOP), square)
+        board.add(Piece(Type.WHITE_BISHOP, square))
     elif square[0] == 7:
-        board.add(Piece(Type.BLACK_BISHOP), square)
+        board.add(Piece(Type.BLACK_BISHOP, square))
 
 def promote_to_rook(board: Board, square: list):
     if square[0] == 0:
-        board.add(Piece(Type.WHITE_ROOK), square)
+        board.add(Piece(Type.WHITE_ROOK, square))
     elif square[0] == 7:
-        board.add(Piece(Type.BLACK_ROOK), square)
+        board.add(Piece(Type.BLACK_ROOK, square))
 
 def ep():
     pass
