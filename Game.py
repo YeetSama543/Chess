@@ -27,7 +27,7 @@ def is_valid_square(square: list) -> bool:
         return False
     return True
 
-#these move generating helper functions DO NOT account for special rules, such as check and E.P.
+#these move generating helper functions DO NOT account for special rules, such as check
 def __generate_attacked_squares_pawn(pawn: Piece, board: Board):
     attacked_squares = []
     #determine if the pawn has previously moved
@@ -62,6 +62,13 @@ def __generate_attacked_squares_pawn(pawn: Piece, board: Board):
     if is_valid_square(diag_right) and board.get_piece_on_square(diag_right):
         if board.get_piece_on_square(diag_right).get_color() != pawn.get_color():
             attacked_squares.append(diag_right)
+
+    #handle ep
+    ep_square = ep(board)
+    if ep_square:
+        if ep_square in [diag_left, diag_right]:
+            attacked_squares.append(ep_square)
+
     return attacked_squares
 
 def __generate_attacked_squares_knight(knight: Piece, board: Board):
@@ -276,7 +283,7 @@ def generate_attacked_squares(piece: Piece, board: Board):
     elif piece.type == Type.BLACK_KING or piece.type == Type.WHITE_KING:
         attacked_squares = __generate_attacked_squares_king(piece,board)
     ###Handle special rules here###
-
+    
     ###############################
     return attacked_squares
 
@@ -390,7 +397,7 @@ def ep(board: Board):
             for move in reversed(board.moves[:-1]):
                 if move[0] == Type.BLACK_PAWN and move[1][1] == last_move[1][1]: #same black pawn that last moved
                     return None
-                    
+
             #pawn never moved before last turn, but is on a double moved square. Thus
             #pawn must have just double moved. so we construct the ep square and return
             ep_square = []
