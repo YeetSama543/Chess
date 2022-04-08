@@ -56,12 +56,9 @@ def main():
 
                             #check if an attacked square was clicked
                             if clicked_square in attacked_squares:
-                                if piece_on_clicked_square:
-                                    board.remove_piece(piece_on_clicked_square)
-
                                 #move piece
                                 board.move(clicked_square)
-                                
+
                                 #handle pawn promotion
                                 promotion_square = Game.pawn_promotion(board)
                                 if promotion_square: #a pawn promotes
