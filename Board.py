@@ -86,6 +86,11 @@ class Board:
             #add to moves
             self.moves.append([self.clicked_piece.type, new_square])
 
+            #remove piece on target square if needed
+            piece_on_clicked_square = self.get_piece_on_square(new_square)
+            if piece_on_clicked_square:
+                self.remove_piece(piece_on_clicked_square)
+
             #move piece
             self.position[new_square[0]][new_square[1]] = self.clicked_piece
             self.position[self.clicked_piece.square[0]][self.clicked_piece.square[1]] = None
