@@ -91,6 +91,18 @@ class Board:
             if piece_on_clicked_square:
                 self.remove_piece(piece_on_clicked_square)
 
+            else: #no piece on clicked square, handle ep
+                if self.clicked_piece.type == Type.WHITE_PAWN or self.clicked_piece.type == Type.BLACK_PAWN:
+                    if self.clicked_piece.square[1] != new_square[1]:
+                        if self.clicked_piece.get_color() == Color.WHITE:
+                            taken_piece_square = [new_square[0] + 1, new_square[1]]
+                        else:
+                            taken_piece_square = [new_square[0] - 1, new_square[1]]
+
+                        #remove piece
+                        taken_piece = self.get_piece_on_square(taken_piece_square)
+                        self.remove_piece(taken_piece)
+
             #move piece
             self.position[new_square[0]][new_square[1]] = self.clicked_piece
             self.position[self.clicked_piece.square[0]][self.clicked_piece.square[1]] = None
