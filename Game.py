@@ -381,5 +381,40 @@ def promote(board: Board, square: list):
     board.remove_piece(board.get_piece_on_square(square))
     board.add(Piece(choice, square))
 
-def ep():
-    pass
+def ep(board: Board):
+    global turn
+    last_move = board.moves[-1]
+
+    if turn == 0: #white to move, look for black pawn moves
+        if last_move[0] == Type.BLACK_PAWN and last_move[1][0] == 3: #last pawn move is a candidate
+            for move in reversed(board.moves[:-1]):
+                if move[0] == Type.BLACK_PAWN and move[1][1] == last_move[1][1]: #same black pawn that last moved
+                    return None
+                    
+            #pawn never moved before last turn, but is on a double moved square. Thus
+            #pawn must have just double moved. so we construct the ep square and return
+            ep_square = []
+            ep_square.append(last_move[1][0] - 1)
+            ep_square.append(last_move[1][1])
+            
+            return ep_square
+
+        else: #no possible ep
+            return None
+    else: #black to move, look for white pawn moves
+        if last_move[0] == Type.WHITE_PAWN and last_move[1][0] == 4: #last pawn move is a candidate
+            for move in reversed(board.moves[:-1]):
+                if move[0] == Type.WHITE_PAWN and move[1][1] == last_move[1][1]: #same white pawn that last moved
+                    return None
+
+            #pawn never moved before last turn, but is on a double moved square. Thus
+            #pawn must have just double moved. so we construct the ep square and return
+            ep_square = []
+            ep_square.append(last_move[1][0] + 1)
+            ep_square.append(last_move[1][1])
+            
+            return ep_square
+
+        else: #no possible ep
+            return None
+    
