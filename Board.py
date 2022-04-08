@@ -9,6 +9,8 @@ class Board:
         self.pieces = []
         self.clicked_piece = None
 
+        self.moves = []
+
     def add_pieces(self): #adds all pieces onto board for start of game
         #rooks
         self.pieces.append(Piece(Type.WHITE_ROOK, [7,0]))
@@ -81,6 +83,10 @@ class Board:
 
     def move(self, new_square): #moves clicked piece to new square
         if self.clicked_piece:
+            #add to moves
+            self.moves.append([self.clicked_piece.type, new_square])
+
+            #move piece
             self.position[new_square[0]][new_square[1]] = self.clicked_piece
             self.position[self.clicked_piece.square[0]][self.clicked_piece.square[1]] = None
             self.clicked_piece.place(new_square)
