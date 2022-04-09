@@ -287,42 +287,25 @@ def generate_attacked_squares(piece: Piece, board: Board):
     ###############################
     return attacked_squares
 
-def is_check(board: Board) -> bool:
-    if turn == 0: #white's turn
-        #find the king's square
-        king_square = []
-        for piece in board.pieces:
-            if piece.type == Type.WHITE_KING:
-                king_square = piece.square
-                break
-        #check if any piece is attacking the king
-        potential_squares = __generate_attacked_squares_queen(piece, board)
-        potential_squares += __generate_attacked_squares_knight(piece, board)
+def is_check(position: list) -> bool:
+    global turn
+    danger_squares = []
+    king_square = []
 
-        for square in potential_squares:
-            piece_on_square = board.get_piece_on_square(square)
-            if piece_on_square: #enemy piece is on square
-                attacked_squares = generate_attacked_squares(piece_on_square, board)
-                if king_square in attacked_squares:
-                    return True
-        return False
-    else: #black's turn
-        #find the king's square
-        king_square = []
-        for piece in board.pieces:
-            if piece.type == Type.BLACK_KING:
-                king_square = piece.square
-                break
-        #check if any piece is attacking the king
-        potential_squares = __generate_attacked_squares_queen(piece, board)
-        potential_squares += __generate_attacked_squares_knight(piece, board)
-        
-        for square in potential_squares:
-            piece_on_square = board.get_piece_on_square(square)
-            if piece_on_square: #enemy piece is on square
-                attacked_squares = generate_attacked_squares(piece_on_square, board)
-                if king_square in attacked_squares:
-                    return True
+    for row in position:
+        for col in row:
+            piece_on_square = position[row][col]
+            if piece_on_square: #there is a piece on square
+                if piece_on_square.get_color().value != turn: #color of piece is diff from person making a move
+                    danger_squares.append(generate_attacked_squares(piece_on_square, position))
+                elif turn == 0 and piece_on_square.type == Type.WHITE_KING:
+                    king_square = piece_on_square.square
+                elif turn == 1 and piece_on_square.type == Type.BLACK_KING:
+                    king_square = piece_on_square.square
+
+    return king_square in danger_squares
+                
+
 
 def is_win(board: Board):
     pass
