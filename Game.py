@@ -268,20 +268,20 @@ def __generate_attacked_squares_king(king: Piece, position: list):
 
     return attacked_squares
 
-def generate_attacked_squares(piece: Piece, board: Board):
+def generate_attacked_squares(piece: Piece, position: list, moves: list):
     attacked_squares = []
     if piece.type == Type.BLACK_PAWN or piece.type == Type.WHITE_PAWN:
-        attacked_squares = __generate_attacked_squares_pawn(piece,board)
+        attacked_squares = __generate_attacked_squares_pawn(piece, position)
     elif piece.type == Type.BLACK_ROOK or piece.type == Type.WHITE_ROOK:
-        attacked_squares = __generate_attacked_squares_rook(piece,board)
+        attacked_squares = __generate_attacked_squares_rook(piece, position)
     elif piece.type == Type.BLACK_KNIGHT or piece.type == Type.WHITE_KNIGHT:
-        attacked_squares = __generate_attacked_squares_knight(piece,board)
+        attacked_squares = __generate_attacked_squares_knight(piece, position)
     elif piece.type == Type.BLACK_BISHOP or piece.type == Type.WHITE_BISHOP:
-        attacked_squares = __generate_attacked_squares_bishop(piece,board)
+        attacked_squares = __generate_attacked_squares_bishop(piece, position)
     elif piece.type == Type.BLACK_QUEEN or piece.type == Type.WHITE_QUEEN:
-        attacked_squares = __generate_attacked_squares_queen(piece,board)
+        attacked_squares = __generate_attacked_squares_queen(piece, position)
     elif piece.type == Type.BLACK_KING or piece.type == Type.WHITE_KING:
-        attacked_squares = __generate_attacked_squares_king(piece,board)
+        attacked_squares = __generate_attacked_squares_king(piece, position)
     ###Handle special rules here###
     
     ###############################
