@@ -85,13 +85,15 @@ def main():
 
                                 if Game.turn == 0: #white to move
                                     if piece_on_clicked_square.get_color() == Color.WHITE:
-                                        attacked_squares =Game.generate_attacked_squares(board.clicked_piece, board.position, board.moves)
+                                        attacked_squares =Game.generate_attacked_squares(piece_on_clicked_square, board.position, board.moves)
                                         board.click_piece(screen, piece_on_clicked_square, attacked_squares)
+                                        
 
                                 else: #black to move
                                     if piece_on_clicked_square.get_color() == Color.BLACK:
-                                        attacked_squares = Game.generate_attacked_squares(board.clicked_piece, board.position, board.moves)
+                                        attacked_squares = Game.generate_attacked_squares(piece_on_clicked_square, board.position, board.moves)
                                         board.click_piece(screen, piece_on_clicked_square, attacked_squares)
+                                        
                         
 
             #update screen
