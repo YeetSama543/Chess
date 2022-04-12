@@ -64,7 +64,7 @@ def __generate_attacked_squares_pawn(pawn: Piece, position: list):
             attacked_squares.append(diag_right)
 
     #handle ep
-    ep_square = ep(board)
+    ep_square = ep(position)
     if ep_square:
         if ep_square in [diag_left, diag_right]:
             attacked_squares.append(ep_square)
@@ -371,14 +371,14 @@ def promote(board: Board, square: list):
     board.remove_piece(board.get_piece_on_square(square))
     board.add(Piece(choice, square))
 
-def ep(board: Board):
+def ep(position: list, moves: list):
     global turn
-    if board.moves != []:
-        last_move = board.moves[-1]
+    if moves != []:
+        last_move = moves[-1]
 
         if turn == 0: #white to move, look for black pawn moves
             if last_move[0] == Type.BLACK_PAWN and last_move[1][0] == 3: #last pawn move is a candidate
-                for move in reversed(board.moves[:-1]):
+                for move in reversed(moves[:-1]):
                     if move[0] == Type.BLACK_PAWN and move[1][1] == last_move[1][1]: #same black pawn that last moved
                         return None
 
@@ -394,7 +394,7 @@ def ep(board: Board):
                 return None
         else: #black to move, look for white pawn moves
             if last_move[0] == Type.WHITE_PAWN and last_move[1][0] == 4: #last pawn move is a candidate
-                for move in reversed(board.moves[:-1]):
+                for move in reversed(moves[:-1]):
                     if move[0] == Type.WHITE_PAWN and move[1][1] == last_move[1][1]: #same white pawn that last moved
                         return None
 
