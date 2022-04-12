@@ -365,11 +365,6 @@ def get_pawn_promotion_choice() -> Type:
 
     return choice
 
-def promote(board: Board, square: list):
-    choice = get_pawn_promotion_choice()
-
-    board.remove_piece(board.get_piece_on_square(square))
-    board.add(Piece(choice, square))
 
 def ep(position: list, moves: list):
     global turn
