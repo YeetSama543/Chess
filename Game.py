@@ -316,10 +316,10 @@ def change_turn(board: Board): #changes turn. Also resets clicked piece
     turn %= 2
     board.clicked_piece = None
 
-def pawn_promotion(board: Board) -> bool: #returns promotion square if a pawn can promote, None otherwise
+def pawn_promotion(position: list) -> bool: #returns promotion square if a pawn can promote, None otherwise
     for i in range(8):
-        p1 = board.get_piece_on_square([0, i])
-        p2 = board.get_piece_on_square([7, i])
+        p1 = position[0][i]
+        p2 = position[7][i]
 
         if p1:
             if p1.type == Type.WHITE_PAWN:
