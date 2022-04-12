@@ -60,7 +60,7 @@ def main():
                                 board.move(clicked_square)
 
                                 #handle pawn promotion
-                                promotion_square = Game.pawn_promotion(board)
+                                promotion_square = Game.pawn_promotion(board.position)
                                 if promotion_square: #a pawn promotes
                                     board.draw(screen) #make sure screen updates
                                     pg.display.flip()
