@@ -329,7 +329,7 @@ def pawn_promotion(board: Board) -> bool: #returns promotion square if a pawn ca
                 return p2.square
     return None
 
-def get_pawn_promotion_choice(board: Board) -> Type:
+def get_pawn_promotion_choice() -> Type:
     valid_choice = False
     while not valid_choice:
         for event in pg.event.get():
@@ -366,7 +366,7 @@ def get_pawn_promotion_choice(board: Board) -> Type:
     return choice
 
 def promote(board: Board, square: list):
-    choice = get_pawn_promotion_choice(board)
+    choice = get_pawn_promotion_choice()
 
     board.remove_piece(board.get_piece_on_square(square))
     board.add(Piece(choice, square))
