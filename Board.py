@@ -147,3 +147,7 @@ class Board:
                 self.pieces.remove(piece)
                 return True
         return False
+
+    def promote(self, square: list, choice: Type):
+        self.remove_piece(self.get_piece_on_square(square))
+        self.add(Piece(choice, square))
