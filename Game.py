@@ -28,7 +28,7 @@ def is_valid_square(square: list) -> bool:
     return True
 
 #these move generating helper functions DO NOT account for special rules, such as check
-def __generate_attacked_squares_pawn(pawn: Piece, position: list):
+def __generate_attacked_squares_pawn(pawn: Piece, position: list, moves: list):
     attacked_squares = []
     #determine if the pawn has previously moved
     has_moved = True
@@ -64,7 +64,7 @@ def __generate_attacked_squares_pawn(pawn: Piece, position: list):
             attacked_squares.append(diag_right)
 
     #handle ep
-    ep_square = ep(position)
+    ep_square = ep(position, moves)
     if ep_square:
         if ep_square in [diag_left, diag_right]:
             attacked_squares.append(ep_square)
@@ -271,7 +271,7 @@ def __generate_attacked_squares_king(king: Piece, position: list):
 def generate_attacked_squares(piece: Piece, position: list, moves: list):
     attacked_squares = []
     if piece.type == Type.BLACK_PAWN or piece.type == Type.WHITE_PAWN:
-        attacked_squares = __generate_attacked_squares_pawn(piece, position)
+        attacked_squares = __generate_attacked_squares_pawn(piece, position, moves)
     elif piece.type == Type.BLACK_ROOK or piece.type == Type.WHITE_ROOK:
         attacked_squares = __generate_attacked_squares_rook(piece, position)
     elif piece.type == Type.BLACK_KNIGHT or piece.type == Type.WHITE_KNIGHT:
@@ -375,11 +375,13 @@ def ep(position: list, moves: list):
     global turn
     if moves != []:
         last_move = moves[-1]
-
         if turn == 0: #white to move, look for black pawn moves
             if last_move[0] == Type.BLACK_PAWN and last_move[1][0] == 3: #last pawn move is a candidate
-                for move in reversed(moves[:-1]):
-                    if move[0] == Type.BLACK_PAWN and move[1][1] == last_move[1][1]: #same black pawn that last moved
+                black_pawn_square = [last_move[1][0], last_move[1][1]]
+                black_pawn = position[black_pawn_square[0]][black_pawn_square[1]]
+
+                for move in reversed(moves[:-1]): #start from second to last move
+                    if position[move[1][0]][move[1][1]] == black_pawn: #the black pawn has moved before, and thus did not double jump
                         return None
 
                 #pawn never moved before last turn, but is on a double moved square. Thus
@@ -394,8 +396,11 @@ def ep(position: list, moves: list):
                 return None
         else: #black to move, look for white pawn moves
             if last_move[0] == Type.WHITE_PAWN and last_move[1][0] == 4: #last pawn move is a candidate
-                for move in reversed(moves[:-1]):
-                    if move[0] == Type.WHITE_PAWN and move[1][1] == last_move[1][1]: #same white pawn that last moved
+                white_pawn_square = [last_move[1][0], last_move[1][1]]
+                white_pawn = position[white_pawn_square[0]][white_pawn_square[1]]
+
+                for move in reversed(moves[:-1]): #start from second to last move
+                    if position[move[1][0]][move[1][1]] == white_pawn: #the black pawn has moved before, and thus did not double jump
                         return None
 
                 #pawn never moved before last turn, but is on a double moved square. Thus
