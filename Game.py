@@ -34,7 +34,7 @@ def suppose_move(piece: Piece, new_square: list, position: list):
 
     return new_position
 
-#these move generating helper functions DO NOT account for special rules, such as check
+#these move generating helper functions DO NOT account for check
 def __generate_attacked_squares_pawn(pawn: Piece, position: list, moves: list):
     attacked_squares = []
     #determine if the pawn has previously moved
@@ -289,9 +289,7 @@ def generate_attacked_squares(piece: Piece, position: list, moves: list):
         attacked_squares = __generate_attacked_squares_queen(piece, position)
     elif piece.type == Type.BLACK_KING or piece.type == Type.WHITE_KING:
         attacked_squares = __generate_attacked_squares_king(piece, position)
-    ###Handle special rules here###
-    
-    ###############################
+
     return attacked_squares
 
 def is_check(position: list, moves: list) -> bool: #returns true when you make a move and your king remains in check
@@ -415,3 +413,15 @@ def ep(position: list, moves: list):
     else:
         return None
     
+def get_valid_moves(piece_square: list, position: list, moves: list):
+    piece = position[piece_square[0]][piece_square[1]]
+    valid_squares = []
+
+    if piece:
+        possible_squares = generate_attacked_squares(piece, position, moves)
+        for square in possible_squares:
+            supposed_position = suppose_move(piece, square, position)
+            if not is_check(supposed_position, moves):
+                valid_squares.append(square)
+                
+    return valid_squares
