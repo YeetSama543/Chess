@@ -6,16 +6,16 @@ from Game_Constants import *
 
 turn = 0
 
-def get_clicked_square(mouse_pos: tuple, board: Board) -> list:
-    relative_x = mouse_pos[0] - board.pos[0]
-    relative_y = mouse_pos[1] - board.pos[1]
+def get_clicked_square(mouse_pos: tuple, pos: tuple) -> list:
+    relative_x = mouse_pos[0] - pos[0]
+    relative_y = mouse_pos[1] - pos[1]
     return [relative_y // SQUARE_SIZE, relative_x // SQUARE_SIZE] #x and y get flipped since first val represents the row# and second is col#
 
-def clicked_on_board(mouse_pos: tuple, board: Board) -> bool:
-    min_x = board.pos[0]
-    max_x = board.pos[0] + BOARD_SIZE
-    min_y = board.pos[1]
-    max_y = board.pos[1] + BOARD_SIZE
+def clicked_on_board(mouse_pos: tuple, pos: tuple) -> bool:
+    min_x = pos[0]
+    max_x = pos[0] + BOARD_SIZE
+    min_y = pos[1]
+    max_y = pos[1] + BOARD_SIZE
 
     if mouse_pos[0] > min_x and mouse_pos[0] < max_x:
         if mouse_pos[1] > min_y and mouse_pos[1] < max_y:
