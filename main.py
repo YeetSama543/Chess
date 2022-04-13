@@ -47,8 +47,8 @@ def main():
                 if event.type == pg.MOUSEBUTTONUP:
                     mouse_pos = pg.mouse.get_pos()
 
-                    if Game.clicked_on_board(mouse_pos, board): #player clicked on board
-                        clicked_square = Game.get_clicked_square(mouse_pos, board)
+                    if Game.clicked_on_board(mouse_pos, board.pos): #player clicked on board
+                        clicked_square = Game.get_clicked_square(mouse_pos, board.pos)
                         piece_on_clicked_square = board.get_piece_on_square(clicked_square)
 
                         if board.clicked_piece: #piece is selected
