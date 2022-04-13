@@ -367,7 +367,6 @@ def get_pawn_promotion_choice() -> Type:
 
     return choice
 
-
 def ep(position: list, moves: list):
     global turn
     if moves != []:
@@ -412,7 +411,57 @@ def ep(position: list, moves: list):
                 return None
     else:
         return None
+
+def has_moved(piece: Piece, moves: list):
+    pass
+
+def can_castle_kingside(position: list, moves: list):
+    global turn
+    can_castle = False
+    rook_moved = True
+    king_moved = True
+    in_check = True
+    passing_check = True
+
+    if turn == 0: #white to move
+        piece_on_rook_square = position[7][7]
+        piece_on_king_square = position[7][4]
+        square_right_of_king = [7,5]
+        square_two_right_of_king = [7,6]
+    else:
+        piece_on_rook_square = position[0][7]
+        piece_on_king_square = position[0][4]
+        square_right_of_king = [0,5]
+        square_two_right_of_king = [0,6]
+
+    #check if rook moved
+    if piece_on_rook_square: #piece on king's rook square
+        rook_moved = has_moved(piece_on_rook_square)
+
+    #check if king moved
+    if piece_on_king_square: #piece on king's rook square
+        king_moved = has_moved(piece_on_king_square)
     
+    #check if king is currently in check
+    if not king_moved and not rook_moved: #neither rook nor king moved
+        in_check = is_check(position, moves)
+
+    #check if king will pass over a square in check
+    if not king_moved and not rook_moved and not in_check:
+        position_one = suppose_move(piece_on_king_square, square_right_of_king, position)
+        position_two = suppose_move(piece_on_king_square, square_two_right_of_king, position)
+
+        if not is_check(position_one, moves) and not is_check(position_two, moves):
+            passing_check = False
+    
+    if not rook_moved and not king_moved and not in_check and not passing_check:
+        can_castle = True
+
+    return can_castle
+
+def can_castle_queenside(position: list, moves: list):
+    pass
+
 def get_valid_moves(piece_square: list, position: list, moves: list):
     piece = position[piece_square[0]][piece_square[1]]
     valid_squares = []
