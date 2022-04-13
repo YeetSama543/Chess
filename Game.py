@@ -27,6 +27,13 @@ def is_valid_square(square: list) -> bool:
         return False
     return True
 
+def suppose_move(piece: Piece, new_square: list, position: list):
+    new_position = [[position[j][i] for i in range(8)] for j in range(8)]
+    new_position[new_square[0]][new_square[1]] = piece
+    new_position[piece.square[0]][piece.square[1]] = None
+
+    return new_position
+
 #these move generating helper functions DO NOT account for special rules, such as check
 def __generate_attacked_squares_pawn(pawn: Piece, position: list, moves: list):
     attacked_squares = []
