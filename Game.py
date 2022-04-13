@@ -287,26 +287,23 @@ def generate_attacked_squares(piece: Piece, position: list, moves: list):
     ###############################
     return attacked_squares
 
-def is_check(position: list) -> bool:
+def is_check(position: list, moves: list) -> bool: #returns true when you make a move and your king remains in check
     global turn
     danger_squares = []
     king_square = []
 
     for row in position:
-        for col in row:
-            piece_on_square = position[row][col]
+        for piece in row:
+            piece_on_square = piece
             if piece_on_square: #there is a piece on square
                 if piece_on_square.get_color().value != turn: #color of piece is diff from person making a move
-                    danger_squares.append(generate_attacked_squares(piece_on_square, position))
+                    danger_squares += generate_attacked_squares(piece_on_square, position, moves)
                 elif turn == 0 and piece_on_square.type == Type.WHITE_KING:
                     king_square = piece_on_square.square
                 elif turn == 1 and piece_on_square.type == Type.BLACK_KING:
                     king_square = piece_on_square.square
-
     return king_square in danger_squares
                 
-
-
 def is_win(board: Board):
     pass
 
