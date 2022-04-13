@@ -25,11 +25,13 @@ class Piece:
     def __init__(self, type: Type, square: list):
         self.type = type
         self.square = square
+        self.has_moved = False
     def draw(self, surf: pg.Surface, pos: tuple):
         image = images[self.type.value]
         surf.blit(image, pos)
     def place(self, newSquare: list):
         self.square = newSquare
+        self.has_moved = True
     def get_color(self) -> Color:
         if self.type.value.isupper(): #white
             return Color.WHITE
