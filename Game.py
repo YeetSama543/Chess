@@ -299,16 +299,16 @@ def is_check(position: list, moves: list) -> bool: #returns true when you make a
     danger_squares = []
     king_square = []
 
-    for row in position:
-        for piece in row:
-            piece_on_square = piece
+    for i in range(8):
+        for j in range(8):
+            piece_on_square = position[i][j]
             if piece_on_square: #there is a piece on square
                 if piece_on_square.get_color().value != turn: #color of piece is diff from person making a move
                     danger_squares += generate_attacked_squares(piece_on_square, position, moves)
                 elif turn == 0 and piece_on_square.type == Type.WHITE_KING:
-                    king_square = piece_on_square.square
+                    king_square = [i, j]
                 elif turn == 1 and piece_on_square.type == Type.BLACK_KING:
-                    king_square = piece_on_square.square
+                    king_square = [i, j]
     return king_square in danger_squares
                 
 def is_win(board: Board):
