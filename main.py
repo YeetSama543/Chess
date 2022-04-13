@@ -52,10 +52,15 @@ def main():
                         piece_on_clicked_square = board.get_piece_on_square(clicked_square)
 
                         if board.clicked_piece: #piece is selected
-                            attacked_squares = Game.generate_attacked_squares(board.clicked_piece, board.position, board.moves)
-
+                            valid_squares = []
+                            possible_squares = Game.generate_attacked_squares(board.clicked_piece, board.position, board.moves)
+                            for square in possible_squares:
+                                supposed_position = Game.suppose_move(board.clicked_piece, square, board.position)
+                                if not Game.is_check(supposed_position, board.moves):
+                                    valid_squares.append(square)
+                            
                             #check if an attacked square was clicked
-                            if clicked_square in attacked_squares:
+                            if clicked_square in valid_squares:
                                 #move piece
                                 board.move(clicked_square)
 
@@ -85,14 +90,26 @@ def main():
 
                                 if Game.turn == 0: #white to move
                                     if piece_on_clicked_square.get_color() == Color.WHITE:
-                                        attacked_squares =Game.generate_attacked_squares(piece_on_clicked_square, board.position, board.moves)
-                                        board.click_piece(screen, piece_on_clicked_square, attacked_squares)
+                                        valid_squares = []
+                                        possible_squares = Game.generate_attacked_squares(piece_on_clicked_square, board.position, board.moves)
+                                        for square in possible_squares:
+                                            supposed_position = Game.suppose_move(piece_on_clicked_square, square, board.position)
+                                            if not Game.is_check(supposed_position, board.moves):
+                                                valid_squares.append(square)
+
+                                        board.click_piece(screen, piece_on_clicked_square, valid_squares)
                                         
 
                                 else: #black to move
                                     if piece_on_clicked_square.get_color() == Color.BLACK:
-                                        attacked_squares = Game.generate_attacked_squares(piece_on_clicked_square, board.position, board.moves)
-                                        board.click_piece(screen, piece_on_clicked_square, attacked_squares)
+                                        valid_squares = []
+                                        possible_squares = Game.generate_attacked_squares(piece_on_clicked_square, board.position, board.moves)
+                                        for square in possible_squares:
+                                            supposed_position = Game.suppose_move(piece_on_clicked_square, square, board.position)
+                                            if not Game.is_check(supposed_position, board.moves):
+                                                valid_squares.append(square)
+
+                                        board.click_piece(screen, piece_on_clicked_square, valid_squares)
                                         
                         
 
