@@ -367,13 +367,12 @@ def get_pawn_promotion_choice() -> Type:
 
     return choice
 
-
 def ep(position: list, moves: list):
     global turn
     if moves != []:
         last_move = moves[-1]
         if turn == 0: #white to move, look for black pawn moves
-            if last_move[0] == Type.BLACK_PAWN and last_move[1][0] == 3: #last pawn move is a candidate
+            if last_move[0].type == Type.BLACK_PAWN and last_move[1][0] == 3: #last pawn move is a candidate
                 black_pawn_square = [last_move[1][0], last_move[1][1]]
                 black_pawn = position[black_pawn_square[0]][black_pawn_square[1]]
 
@@ -392,7 +391,7 @@ def ep(position: list, moves: list):
             else: #no possible ep
                 return None
         else: #black to move, look for white pawn moves
-            if last_move[0] == Type.WHITE_PAWN and last_move[1][0] == 4: #last pawn move is a candidate
+            if last_move[0].type == Type.WHITE_PAWN and last_move[1][0] == 4: #last pawn move is a candidate
                 white_pawn_square = [last_move[1][0], last_move[1][1]]
                 white_pawn = position[white_pawn_square[0]][white_pawn_square[1]]
 
@@ -412,16 +411,116 @@ def ep(position: list, moves: list):
                 return None
     else:
         return None
+
+def has_moved(piece: Piece, moves: list):
+    for move in moves:
+        if move[0] == piece:
+            return True
+    return False
+
+def can_castle(position: list, moves: list): #returns dict with bools for kingside and queenside
+    global turn
+    can_castle_kingside = False
+    can_castle_queenside = False
+    kingside_rook_moved = True
+    queenside_rook_moved = True
+    king_moved = True
+    in_check = True
+    passing_check_kingside = True
+    passing_check_queenside = False
+    piece_on_castle_square_kingside = True
+    piece_on_castle_square_queenside = True
+
+
+    if turn == 0: #white to move
+        piece_on_kingside_rook_square = position[7][7]
+        piece_on_queenside_rook_square = position[7][0]
+        piece_on_king_square = position[7][4]
+        square_right_of_king = [7,5]
+        square_two_right_of_king = [7,6]
+        square_left_of_king = [7,3]
+        square_two_left_of_king = [7,2]
+    else:
+        piece_on_kingside_rook_square = position[0][7]
+        piece_on_queenside_rook_square = position[0][0]
+        piece_on_king_square = position[0][4]
+        square_right_of_king = [0,5]
+        square_two_right_of_king = [0,6]
+        square_left_of_king = [0,3]
+        square_two_left_of_king = [0,2]
+
+    #check if there in an obstructing piece
+    if not position[square_right_of_king[0]][square_right_of_king[1]] and not position[square_two_right_of_king[0]][square_two_right_of_king[1]]:
+        piece_on_castle_square_kingside = False
+
+    if not position[square_left_of_king[0]][square_left_of_king[1]] and not position[square_two_left_of_king[0]][square_two_left_of_king[1]]:
+        piece_on_castle_square_queenside = False
+
+    #check if kingside rook moved
+    if piece_on_kingside_rook_square: #piece on king's rook square
+        kingside_rook_moved = has_moved(piece_on_kingside_rook_square, moves)
+
+    #check if queenside rook moved
+    if piece_on_queenside_rook_square: #piece on queen's rook square
+        queenside_rook_moved = has_moved(piece_on_queenside_rook_square, moves)
+
+    #check if king moved
+    if piece_on_king_square: #piece on king's rook square
+        king_moved = has_moved(piece_on_king_square, moves)
     
+    #check if king is currently in check if necessary
+    if not king_moved:
+        in_check = is_check(position, moves)
+
+    #check if king will pass over a square in check kingside
+    if not king_moved and not kingside_rook_moved and not in_check:
+        position_one = suppose_move(piece_on_king_square, square_right_of_king, position)
+        position_two = suppose_move(piece_on_king_square, square_two_right_of_king, position)
+
+        if not is_check(position_one, moves) and not is_check(position_two, moves):
+            passing_check_kingside = False
+    #check if king will pass over a sqaure in check queenside
+    if not king_moved and not queenside_rook_moved and not in_check:
+        position_one = suppose_move(piece_on_king_square, square_left_of_king, position)
+        position_two = suppose_move(piece_on_king_square, square_two_left_of_king, position)
+
+        if not is_check(position_one, moves) and not is_check(position_two, moves):
+            passing_check_queenside = False
+
+    #decide if king can castle on either side
+    if not king_moved and not in_check:
+        if not kingside_rook_moved and not passing_check_kingside and not piece_on_castle_square_kingside:
+            can_castle_kingside = True
+        if not queenside_rook_moved and not passing_check_queenside and not piece_on_castle_square_queenside:
+            can_castle_queenside = True
+
+    return {
+        "queenside" : can_castle_queenside,
+        "kingside" : can_castle_kingside
+    }
+
 def get_valid_moves(piece_square: list, position: list, moves: list):
     piece = position[piece_square[0]][piece_square[1]]
     valid_squares = []
 
     if piece:
+        #handle check
         possible_squares = generate_attacked_squares(piece, position, moves)
         for square in possible_squares:
             supposed_position = suppose_move(piece, square, position)
             if not is_check(supposed_position, moves):
                 valid_squares.append(square)
-                
+        #handle castling
+        castle = can_castle(position, moves)
+        if turn == 0:
+            if castle['queenside']:
+                valid_squares.append([7,2])
+            if castle['kingside']:
+                valid_squares.append([7,6])
+        else:
+            if castle['queenside']:
+                valid_squares.append([0,2])
+            if castle['kingside']:
+                valid_squares.append([0,6])
+
     return valid_squares

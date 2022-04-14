@@ -81,33 +81,77 @@ class Board:
             piece_pos = self.square_to_topleft(piece.square)
             piece.draw(surf, piece_pos)
 
+    def is_castle_square(self, new_square) -> bool:
+        if self.clicked_piece.get_color() == Color.WHITE:
+            if self.clicked_piece.type == Type.WHITE_KING and self.clicked_piece.square == [7,4]:
+                if new_square == [7,6] or new_square == [7,2]:
+                    return True
+            return False
+
+        else:
+            if self.clicked_piece.type == Type.BLACK_KING and self.clicked_piece.square == [0,4]:
+                if new_square == [0,6] or new_square == [0,2]:
+                    return True
+            return False
+
+    def castle(self, castle_square):
+        if self.clicked_piece.get_color() == Color.WHITE:
+            if castle_square == [7,6]: #kingside castle
+                rook_dest = [7,5]
+                rook_start = [7,7]
+            elif castle_square == [7,2]: #queenside
+                rook_dest = [7,3]
+                rook_start = [7,0]
+        else:
+            if castle_square == [0,6]: #kingside castle
+                rook_dest = [0,5]
+                rook_start = [0,7]
+            elif castle_square == [0,2]: #queenside
+                rook_dest = [0,3]
+                rook_start = [0,0]
+        #move king
+        self.position[castle_square[0]][castle_square[1]] = self.clicked_piece
+        self.position[self.clicked_piece.square[0]][self.clicked_piece.square[1]] = None
+        self.clicked_piece.place(castle_square)
+        self.clicked_piece = None
+
+        #move rook
+        self.position[rook_dest[0]][rook_dest[1]] = self.position[rook_start[0]][rook_start[1]]
+        self.position[rook_start[0]][rook_start[1]] = None
+        self.position[rook_dest[0]][rook_dest[1]].place(rook_dest)
+
+
     def move(self, new_square): #moves clicked piece to new square
         if self.clicked_piece:
             #add to moves
-            self.moves.append([self.clicked_piece.type, new_square])
+            self.moves.append([self.clicked_piece, new_square])
 
-            #remove piece on target square if needed
-            piece_on_clicked_square = self.get_piece_on_square(new_square)
-            if piece_on_clicked_square:
-                self.remove_piece(piece_on_clicked_square)
+            if self.is_castle_square(new_square): #castle
+                self.castle(new_square)
 
-            else: #no piece on clicked square, handle ep
-                if self.clicked_piece.type == Type.WHITE_PAWN or self.clicked_piece.type == Type.BLACK_PAWN:
-                    if self.clicked_piece.square[1] != new_square[1]:
-                        if self.clicked_piece.get_color() == Color.WHITE:
-                            taken_piece_square = [new_square[0] + 1, new_square[1]]
-                        else:
-                            taken_piece_square = [new_square[0] - 1, new_square[1]]
+            else: #not castle, move normally
+                #remove piece on target square if needed
+                piece_on_clicked_square = self.get_piece_on_square(new_square)
+                if piece_on_clicked_square:
+                    self.remove_piece(piece_on_clicked_square)
 
-                        #remove piece
-                        taken_piece = self.get_piece_on_square(taken_piece_square)
-                        self.remove_piece(taken_piece)
+                else: #no piece on clicked square, handle ep
+                    if self.clicked_piece.type == Type.WHITE_PAWN or self.clicked_piece.type == Type.BLACK_PAWN:
+                        if self.clicked_piece.square[1] != new_square[1]:
+                            if self.clicked_piece.get_color() == Color.WHITE:
+                                taken_piece_square = [new_square[0] + 1, new_square[1]]
+                            else:
+                                taken_piece_square = [new_square[0] - 1, new_square[1]]
 
-            #move piece
-            self.position[new_square[0]][new_square[1]] = self.clicked_piece
-            self.position[self.clicked_piece.square[0]][self.clicked_piece.square[1]] = None
-            self.clicked_piece.place(new_square)
-            self.clicked_piece = None
+                            #remove piece
+                            taken_piece = self.get_piece_on_square(taken_piece_square)
+                            self.remove_piece(taken_piece)
+
+                #move piece
+                self.position[new_square[0]][new_square[1]] = self.clicked_piece
+                self.position[self.clicked_piece.square[0]][self.clicked_piece.square[1]] = None
+                self.clicked_piece.place(new_square)
+                self.clicked_piece = None
 
     def get_piece_on_square(self, square: list) -> Piece:
         return self.position[square[0]][square[1]]
@@ -144,6 +188,7 @@ class Board:
         for piece in self.pieces:
             if piece.square == piece_to_remove.square:
                 self.position[piece.square[0]][piece.square[1]] = None
+                piece.place(None)
                 self.pieces.remove(piece)
                 return True
         return False
