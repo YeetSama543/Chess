@@ -504,10 +504,23 @@ def get_valid_moves(piece_square: list, position: list, moves: list):
     valid_squares = []
 
     if piece:
+        #handle check
         possible_squares = generate_attacked_squares(piece, position, moves)
         for square in possible_squares:
             supposed_position = suppose_move(piece, square, position)
             if not is_check(supposed_position, moves):
                 valid_squares.append(square)
-                
+        #handle castling
+        castle = can_castle(position, moves)
+        if turn == 0:
+            if castle['queenside']:
+                valid_squares.append([7,2])
+            if castle['kingside']:
+                valid_squares.append([7,6])
+        else:
+            if castle['queenside']:
+                valid_squares.append([0,2])
+            if castle['kingside']:
+                valid_squares.append([0,6])
+
     return valid_squares
