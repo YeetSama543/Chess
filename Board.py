@@ -84,7 +84,7 @@ class Board:
     def move(self, new_square): #moves clicked piece to new square
         if self.clicked_piece:
             #add to moves
-            self.moves.append([self.clicked_piece.type, new_square])
+            self.moves.append([self.clicked_piece, new_square])
 
             #remove piece on target square if needed
             piece_on_clicked_square = self.get_piece_on_square(new_square)
@@ -144,6 +144,7 @@ class Board:
         for piece in self.pieces:
             if piece.square == piece_to_remove.square:
                 self.position[piece.square[0]][piece.square[1]] = None
+                piece.place(None)
                 self.pieces.remove(piece)
                 return True
         return False
