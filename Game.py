@@ -1,5 +1,6 @@
 #contains functionality of the game
 
+from typing import Set
 from Board import Board
 from Piece import *
 from Game_Constants import *
@@ -499,7 +500,7 @@ def can_castle(position: list, moves: list): #returns dict with bools for kingsi
         "kingside" : can_castle_kingside
     }
 
-def get_valid_moves(piece_square: list, position: list, moves: list):
+def get_valid_moves(piece_square: list, position: list, moves: list): #gets valid moves for specific piece
     piece = position[piece_square[0]][piece_square[1]]
     valid_squares = []
 
@@ -525,3 +526,12 @@ def get_valid_moves(piece_square: list, position: list, moves: list):
                     valid_squares.append([0,6])
 
     return valid_squares
+
+def get_valid_moves(position: list, moves: list): #gets all valid moves for color making a move
+    valid_squares = []
+    for i in range(8):
+        for j in range(8):
+            valid_squares += get_valid_moves([i,j], position, moves)
+
+    #remove duplicate squares and return
+    return list(set(valid_squares))
