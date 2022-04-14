@@ -413,7 +413,10 @@ def ep(position: list, moves: list):
         return None
 
 def has_moved(piece: Piece, moves: list):
-    pass
+    for move in moves:
+        if moves[0] == piece:
+            return False
+    return True
 
 def can_castle(position: list, moves: list): #returns dict with bools for kingside and queenside
     global turn
