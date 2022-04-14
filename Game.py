@@ -372,7 +372,7 @@ def ep(position: list, moves: list):
     if moves != []:
         last_move = moves[-1]
         if turn == 0: #white to move, look for black pawn moves
-            if last_move[0] == Type.BLACK_PAWN and last_move[1][0] == 3: #last pawn move is a candidate
+            if last_move[0].type == Type.BLACK_PAWN and last_move[1][0] == 3: #last pawn move is a candidate
                 black_pawn_square = [last_move[1][0], last_move[1][1]]
                 black_pawn = position[black_pawn_square[0]][black_pawn_square[1]]
 
@@ -391,7 +391,7 @@ def ep(position: list, moves: list):
             else: #no possible ep
                 return None
         else: #black to move, look for white pawn moves
-            if last_move[0] == Type.WHITE_PAWN and last_move[1][0] == 4: #last pawn move is a candidate
+            if last_move[0].type == Type.WHITE_PAWN and last_move[1][0] == 4: #last pawn move is a candidate
                 white_pawn_square = [last_move[1][0], last_move[1][1]]
                 white_pawn = position[white_pawn_square[0]][white_pawn_square[1]]
 
