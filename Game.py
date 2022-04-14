@@ -511,16 +511,17 @@ def get_valid_moves(piece_square: list, position: list, moves: list):
             if not is_check(supposed_position, moves):
                 valid_squares.append(square)
         #handle castling
-        castle = can_castle(position, moves)
-        if turn == 0:
-            if castle['queenside']:
-                valid_squares.append([7,2])
-            if castle['kingside']:
-                valid_squares.append([7,6])
-        else:
-            if castle['queenside']:
-                valid_squares.append([0,2])
-            if castle['kingside']:
-                valid_squares.append([0,6])
+        if piece.type == Type.WHITE_KING or piece.type == Type.BLACK_KING:
+            castle = can_castle(position, moves)
+            if turn == 0:
+                if castle['queenside']:
+                    valid_squares.append([7,2])
+                if castle['kingside']:
+                    valid_squares.append([7,6])
+            else:
+                if castle['queenside']:
+                    valid_squares.append([0,2])
+                if castle['kingside']:
+                    valid_squares.append([0,6])
 
     return valid_squares
