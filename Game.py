@@ -310,8 +310,11 @@ def is_check(position: list, moves: list) -> bool: #returns true when you make a
                     king_square = [i, j]
     return king_square in danger_squares
                 
-def is_win(board: Board):
-    pass
+def is_win(position: list, moves: list):
+    if get_valid_moves(position, moves) == []:
+        if is_check(position, moves):
+            return True
+    return False
 
 def change_turn(board: Board): #changes turn. Also resets clicked piece
     global turn
