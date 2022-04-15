@@ -546,7 +546,7 @@ def get_all_valid_moves(position: list, moves: list): #gets all valid moves for 
         for j in range(8):
             piece = position[i][j]
             if piece:
-                if piece.get_color() == turn: #color is different
+                if piece.get_color().value == turn: #color is same
                     valid_squares += get_valid_moves([i,j], position, moves)
 
     #remove duplicate squares and return
@@ -577,6 +577,6 @@ def __is_draw_by_repetition(position: list, moves: list) -> bool:
     return False
 
 def is_draw(position: list, moves: list) -> bool:
-    if __is_stalemate(position, moves) or __is_draw_by_50_moves(position, moves) or __is_draw_by_repetition(position, moves):
+    if __is_stalemate(position, moves) or __is_draw_by_50_moves(moves) or __is_draw_by_repetition(position, moves):
         return True
     return False
