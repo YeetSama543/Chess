@@ -314,7 +314,7 @@ def is_win(position: list, moves: list) -> Color:
     winner = None
     global turn
 
-    if get_valid_moves(position, moves) == []:
+    if get_all_valid_moves(position, moves) == []:
         if is_check(position, moves):
             if turn == 0:
                 winner = Color.BLACK
@@ -537,11 +537,30 @@ def get_valid_moves(piece_square: list, position: list, moves: list): #gets vali
 
     return valid_squares
 
-def get_valid_moves(position: list, moves: list): #gets all valid moves for color making a move
+def get_all_valid_moves(position: list, moves: list): #gets all valid moves for color making a move
+    global turn
     valid_squares = []
+    res = []
+
     for i in range(8):
         for j in range(8):
-            valid_squares += get_valid_moves([i,j], position, moves)
+            piece = position[i][j]
+            if piece:
+                if piece.get_color() == turn: #color is different
+                    valid_squares += get_valid_moves([i,j], position, moves)
 
     #remove duplicate squares and return
-    return list(set(valid_squares))
+    [res.append(square) for square in valid_squares if square not in res]
+    return res
+
+def __is_stalemate(position: list, moves: list) -> bool:
+    pass
+
+def __is_draw_by_50_moves(moves: list) -> bool:
+    pass
+
+def __is_draw_by_repetition(moves: list) -> bool:
+    pass
+
+def is_draw(position: list, moves: list) -> bool:
+    pass
