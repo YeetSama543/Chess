@@ -70,6 +70,21 @@ def main():
                                 #change the turn
                                 Game.change_turn(board)
 
+                                #check for win
+                                win = Game.is_win(board.position, board.moves)
+                                if win:
+                                    if win == Color.WHITE:
+                                        print("White wins")
+                                    else:
+                                        print("Black wins")
+                                    running = False
+
+                                #check for draw
+                                draw = Game.is_draw(board.position, board.moves)
+                                if draw:
+                                    print("Draw")
+                                    running = False
+
                             else: #pressed a square the piece can't move to
                                 board.clicked_piece = None
 
