@@ -554,13 +554,29 @@ def get_all_valid_moves(position: list, moves: list): #gets all valid moves for 
     return res
 
 def __is_stalemate(position: list, moves: list) -> bool:
-    pass
+    if get_all_valid_moves(position, moves) == [] and not is_check(position, moves):
+        return True
+    return False
 
 def __is_draw_by_50_moves(moves: list) -> bool:
-    pass
+    if len(moves) < 100:
+        return False
+    else:
+        moves_without_pawn_move = 0
+        for i in range(len(moves)):
+            if i % 1 == 0:
+                moves_without_pawn_move += 1
+            if moves[i][0].type == Type.BLACK_PAWN or moves[i][0].type == Type.WHITE_PAWN:
+                moves_without_pawn_move = 0
+            if moves_without_pawn_move > 50:
+                return True
+    return False
+            
 
-def __is_draw_by_repetition(moves: list) -> bool:
-    pass
+def __is_draw_by_repetition(position: list, moves: list) -> bool:
+    return False
 
 def is_draw(position: list, moves: list) -> bool:
-    pass
+    if __is_stalemate(position, moves) or __is_draw_by_50_moves(position, moves) or __is_draw_by_repetition(position, moves):
+        return True
+    return False
