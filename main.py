@@ -11,6 +11,7 @@ def main():
     running = True
     choice = 0
     TitleScreen.draw()
+
     while running:
         for event in pg.event.get(): #check for events
             if event.type == pg.QUIT: #player exited
@@ -27,17 +28,21 @@ def main():
                         button.click()
                         choice = button_count
                         running = False
+
         #update screen
         pg.display.update()
+
         #set max frame rate
         clock.tick(60)
     
     #create board
     board = Board((0,0))
     board.add_pieces()
+
     #draw game screen + board
     screen.fill(GAME_BG_COLOR)
     board.draw(screen)
+
     if choice == 1: #human vs human
         running = True
         while running:
@@ -127,10 +132,13 @@ def main():
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     running  = False
+
             #update screen
             pg.display.update()
+
             #set max frame rate
             clock.tick(60)
+            
     pg.quit()
 if __name__ == "__main__":
     main()
