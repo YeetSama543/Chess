@@ -159,21 +159,26 @@ class Board:
     def highlight_clicked_square(self, surf: pg.Surface):
         #create highlighted square
         topleft = self.square_to_topleft(self.clicked_piece.square)
-        highlighted_square = pg.Surface((SQUARE_SIZE,SQUARE_SIZE))
+        highlighted_square = pg.Surface((SQUARE_SIZE,SQUARE_SIZE), pg.SRCALPHA)
+        highlighted_square.convert_alpha()
         highlighted_square.fill(HIGHLIGHT_SQUARE_COLOR)
+
         #draw square onto board
         surf.blit(highlighted_square, topleft)
+
         #redraw piece
         self.clicked_piece.draw(surf, topleft)
 
     def highlight_attacked_squares(self, surf: pg.Surface, squares: list):
-        attacked_square = pg.Surface((SQUARE_SIZE,SQUARE_SIZE))
+        attacked_square = pg.Surface((SQUARE_SIZE,SQUARE_SIZE), pg.SRCALPHA)
+        attacked_square.convert_alpha()
         attacked_square.fill(ATTACKED_SQUARE_COLOR)
 
         for square in squares:
             #draw attacked square
             topleft = self.square_to_topleft(square)
             surf.blit(attacked_square, topleft)
+            
             #draw piece if there originally was one
             piece_on_square = self.get_piece_on_square(square)
             if piece_on_square:
