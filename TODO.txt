@@ -1,8 +1,5 @@
-04/02/2022
-Work on handling check
-Work on handling E.P.
-Work on handling pawn promotion
-Don't allow pinned pieces to move
-Check for draw by repetition
-Check for draw by 50 moves w/o pawn move
-
+04/15/22
+EP does not always work as intended
+is_draw needs tested
+is_win needs tested
+UI needs work
